@@ -23,15 +23,19 @@
 
         .container {
             text-align: center;
-            background: white;
+            background: rgba(255, 255, 255, 0.85); /* opacity */
+            backdrop-filter: blur(6px); /* soft glass effect */
+            -webkit-backdrop-filter: blur(6px);
+        
             padding: 3rem;
             border-radius: 20px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
             border: 4px solid #ffb6c1;
             position: relative;
             max-width: 400px;
             width: 90%;
         }
+
 
         h1 {
             color: #ff4d6d;
