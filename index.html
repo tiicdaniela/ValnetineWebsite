@@ -12,7 +12,7 @@
             height: 100vh;
             margin: 0;
 
-            background-image: url("background.png");
+            background-image: url("https://uploads.onecompiler.io/44cxtqfy9/44cxrgub9/Untitled%20design.png"); 
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
@@ -20,28 +20,44 @@
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             overflow: hidden;
         }
+        
+        body::before { 
+            content: ""; 
+            position: fixed; 
+            top: 0; 
+            left: 0; 
+            width: 100%; 
+            height: 100%; 
+            background-image: url("https://uploads.onecompiler.io/44cxtqfy9/44cxrgub9/Untitled%20design.png"); 
+            background-size: cover; 
+            background-position: center; 
+            background-repeat: no-repeat; 
+            filter: blur(3px); 
+            transform: scale(1.1); 
+            z-index: -2; 
+        }
 
         .container {
             text-align: center;
-            background: rgba(255, 255, 255, 0.85); /* opacity */
-            backdrop-filter: blur(6px); /* soft glass effect */
-            -webkit-backdrop-filter: blur(6px);
         
             padding: 3rem;
             border-radius: 20px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
-            border: 4px solid #ffb6c1;
             position: relative;
             max-width: 400px;
             width: 90%;
         }
 
 
-        h1 {
-            color: #ff4d6d;
-            font-size: 2rem;
-            margin-bottom: 2rem;
-        }
+        h1 { 
+          color:white; 
+          text-shadow: 
+          -1px -1px 0 #ffb6c1, 
+          1px -1px 0 #ffb6c1, 
+          -1px 1px 0 #ffb6c1, 
+          1px 1px 0 #ffb6c1; 
+          font-size: 2rem; 
+          margin-bottom: 2rem; 
+        } 
 
         .buttons {
             display: flex;
@@ -61,17 +77,17 @@
         }
 
         #yesBtn {
-            background-color: #ff4d6d;
+            background-color: #21c55e;
             color: white;
         }
 
         #yesBtn:hover {
             transform: scale(1.1);
-            background-color: #ff758f;
+            background-color: #4bdd81;
         }
 
         #noBtn {
-            background-color: #ffb6c1;
+            background-color: #ff4d6d;
             color: white;
             
         }
@@ -83,6 +99,44 @@
         #celebration {
             font-size: 1.5rem;
             color: #ff4d6d;
+        }
+        
+        #popupBox {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+        }
+        
+        .popup-content {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+        
+        .popup-content p {
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            color: #333;
+        }
+        
+        .popup-content button {
+            background-color: #ff4d6d;
+            color: white;
+            padding: 10px 20px;
+            font-size: 1rem;
+        }
+        
+        #popupBox.hidden {
+            display: none;
         }
     </style>
 </head>
@@ -97,9 +151,25 @@
             </div>
         </div>
 
+        <div id="popupBox" class="hidden">
+            <div class="popup-content">
+                <p>Why do you keep trying to press no?  🤨</p>
+                <button onclick="closePopup()">Try Again!</button>
+            </div>
+        </div>
+
         <div id="celebration" class="hidden">
-            <h1>Great choice! I love you baby! Can't wait to spend forever with my forever Valentine 🥰🌹</h1>
-            <p>🎉✨🎈</p>
+            <img 
+              src="https://media.tenor.com/gUiu1zyxfzYAAAAi/bear-kiss-bear-kisses.gif" 
+              alt="Cute celebration gif" 
+              class="celebration-gif" 
+              width="150"
+            >
+            <h1>
+              YAY! <br>
+              I love you baby! <br>
+              My forever Valentine :)
+            </h1>
         </div>
     </div>
 
@@ -108,25 +178,21 @@
         const container = document.getElementById('mainContainer');
 
         function moveButton() {
-            // Get the container boundaries so the button doesn't fly off screen
             const containerWidth = window.innerWidth - noBtn.offsetWidth;
             const containerHeight = window.innerHeight - noBtn.offsetHeight;
 
-            // Generate random positions
             const randomX = Math.floor(Math.random() * containerWidth);
             const randomY = Math.floor(Math.random() * containerHeight);
 
-            // Move the button to the new position
             noBtn.style.left = randomX + 'px';
             noBtn.style.top = randomY + 'px';
-            noBtn.style.position = 'fixed'; // Makes it jump anywhere on the screen
+            noBtn.style.position = 'fixed';
         }
 
         function celebrate() {
             document.getElementById('questionArea').classList.add('hidden');
             document.getElementById('celebration').classList.remove('hidden');
             
-            // Optional: Launch some emoji confetti!
             for(let i=0; i<50; i++) {
                 createHeart();
             }
@@ -148,6 +214,32 @@
             }, 100);
 
             setTimeout(() => heart.remove(), 3000);
+        }
+        
+        let noCount = 0;
+
+        function moveButton() {
+            noCount++;
+            
+            if (noCount === 5) {
+                document.getElementById('popupBox').classList.remove('hidden');
+                return; 
+            }
+        
+            const containerWidth = window.innerWidth - noBtn.offsetWidth;
+            const containerHeight = window.innerHeight - noBtn.offsetHeight;
+        
+            const randomX = Math.floor(Math.random() * containerWidth);
+            const randomY = Math.floor(Math.random() * containerHeight);
+        
+            noBtn.style.left = randomX + 'px';
+            noBtn.style.top = randomY + 'px';
+            noBtn.style.position = 'fixed';
+        }
+        
+        function closePopup() {
+            document.getElementById('popupBox').classList.add('hidden');
+            noCount = 0; 
         }
     </script>
 </body>
